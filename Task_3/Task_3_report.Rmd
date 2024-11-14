@@ -1,0 +1,39 @@
+---
+title: "Project for Assignment 3"
+output: pdf_document
+date: "2024-11-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1
+
+Creating the Scatter Plot:
+The black dots are considered Diabetes level 0 while red dots are considered Diabetes level 1.
+
+```{Q1}
+mydata <- read.csv("C:/Users/Ana/Documents/LiU University/Machine Learning/csv data for labs/Lab 1 data/pima-indians-diabetes.csv")
+
+plot(x = mydata$X50, 
+     y = mydata$X148,
+     xlab = "Age",
+     ylab = "Plasma glucose concentration",
+     main = "Age vs Plasma glucose concentration",
+     col = as.factor(mydata$X1))
+```
+
+Do you think that Diabetes is easy to classify by a standard logistic regression model that uses these two variables as features? 
+
+
+
+## Including Plots
+
+You 
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
