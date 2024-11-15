@@ -1,8 +1,7 @@
-install.packages("readr")
-install.packages("kknn")
-library(kknn)
-
-# Load the data
+ install.packages("readr")
+ install.packages("kknn")
+ library(kknn)
+ library(tidyverse)
 data <- read_csv("Task_1/optdigits.csv")
 
 #renamed for simplicity
