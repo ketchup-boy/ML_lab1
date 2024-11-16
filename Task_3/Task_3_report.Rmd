@@ -25,6 +25,7 @@ plot(x = mydata$X50,
 ```
 
 Do you think that Diabetes is easy to classify by a standard logistic regression model that uses these two variables as features? 
+We do not believe that Diabetes is easy to classify by a standard logistic regression model that uses only two variables (Age and Glucose Concentration) as features. If we look at the plot ![Plot of Age VS Plasma Glucose Concentration]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\plot age vs plasma glucose concentration.png") we can notice that having high Glucose concentration level could be connected with having Diabetes (the red dots), while we cannot see such significant impact with Age as a factor. Meaning that perhaps a different factor compared to Age should be considered. Also, there seems to be quite a lot of overlap between the red and black points, hence, logistic regression might not be the best way of classifying as the decision boundary would not be linear.
 
 
 
