@@ -30,11 +30,7 @@ train_pred <- fitted(knn_model)
 test_knn_model <- kknn(digit ~ ., train = train, test = test, k = 30, kernel = "rectangular")
 test_pred <- fitted(test_knn_model)
 
-#round these bad boys
-# train_pred <- as.integer(round(train_pred))
-# test_pred <- as.integer(round(test_pred))
-
-#get confusion matrices
+#confusion matrices
 train_conf_matrix <- table(train$digit, train_pred)
 print("Training Confusion Matrix:")
 print(train_conf_matrix)
@@ -54,37 +50,37 @@ print(paste("Test Misclassification Error:", round(test_misclassification, 4)))
 ####################################################
 
 # # Extract predicted probabilities and identify cases for digit "8"
-# train_probs <- attributes(fitted(knn_model))$prob
+train_probs <- knn_model$prob
 # 
-# # Filter for only rows where the true digit is "8"
-# eight_indices <- which(train$digit == 8)
+# Filter for only rows where the true digit is "8"
+eight_indices <- which(train$digit == 8)
 # 
 # # Get probabilities of the correct class ("8") for these cases as a numeric vector
-# eight_probs <- vapply(eight_indices, function(i) as.numeric(train_probs[i, "8"]), numeric(1))
+eight_probs <- vapply(eight_indices, function(i) as.numeric(train_probs[i, "8"]), numeric(1))
 
 # Find indices of the 2 highest and 3 lowest probabilities
-easiest_cases <- order(knn_model$prob[,9], decreasing = TRUE)[1:2]
-hardest_cases <- order(knn_model$prob[,9])[1:3]
+easiest_cases <- order(eight_probs, decreasing = TRUE)[1:2]
+hardest_cases <- order(eight_probs)[1:3]
 
-
-
+easiest_indexes <- eight_indices[easiest_cases]
+hardest_indexes <- eight_indices[hardest_cases]
 
 # Function to visualize a digit as an 8x8 heatmap
 visualize_digit <- function(data_row) {
   matrix_data <- matrix(as.numeric(data_row[1:64]), nrow = 8, ncol = 8, byrow = TRUE)
   heatmap(matrix_data, Colv = NA, Rowv = NA, scale = "none",
-          main = paste("Digit:", data_row[65]), col = heat.colors(16))
+           col = heat.colors(16))
 }
 
 # Visualize easiest cases
 cat("Easiest cases of digit '8':\n")
-for (i in easiest_cases) {
+for (i in easiest_indexes) {
   visualize_digit(train[i,])
 }
 
 # Visualize hardest cases
 cat("Hardest cases of digit '8':\n")
-for (i in hardest_cases) {
+for (i in hardest_indexes) {
   visualize_digit(train[i,])
 }
 
@@ -110,10 +106,16 @@ for (k in 1:30) {
 }
 
 # Plot the errors
+# plot(1:30, train_errors, type = "o", col = "blue", ylim = c(0, max(train_errors, valid_errors)), 
+#      xlab = "K", ylab = "Misclassification Error", main = "Training and Validation Errors vs K")
+# lines(1:30, valid_errors, type = "o", col = "red")
+# legend("topright", legend = c("Training Error", "Validation Error"), col = c("blue", "red"), lty = 1, pch = 1)
+par(xpd = TRUE, mar = c(5, 4, 4, 7))  # Increase the right margin
 plot(1:30, train_errors, type = "o", col = "blue", ylim = c(0, max(train_errors, valid_errors)), 
      xlab = "K", ylab = "Misclassification Error", main = "Training and Validation Errors vs K")
 lines(1:30, valid_errors, type = "o", col = "red")
-legend("topright", legend = c("Training Error", "Validation Error"), col = c("blue", "red"), lty = 1, pch = 1)
+legend("bottomright", inset = c(-0.2, 0), legend = c("Training Error", "Validation Error"), 
+       col = c("blue", "red"), lty = 1, pch = 1, cex = 0.8)
 
 # Find optimal K (minimizing validation error)
 optimal_k <- which.min(valid_errors)
@@ -129,10 +131,9 @@ cat("Test Error for optimal K:", test_error, "\n")
 ###########################################################################
 
 max_k <- 30
-cross_entropy_losses <- numeric(max_k)  # Store cross-entropy loss for each K
-epsilon <- 1e-15  # Small constant to avoid log(0)
+cross_entropy_losses <- numeric(max_k)
+epsilon <- 1e-15
 
-# Loop over K = 1 to max_k
 for (k in 1:max_k) {
   # Fit k-NN model
   knn_model <- kknn(digit ~ ., train = train, test = valid, k = k, kernel = "rectangular")

@@ -1,0 +1,68 @@
+---
+title: "Task 1: Lab 1: Block 1"
+output: html_document
+---
+
+```{r setup}
+library(kknn)
+library(tidyverse)
+
+#read in data
+data <- read_csv("Task_1/optdigits.csv")
+
+
+colnames(data)[ncol(data)] <- "digit"
+data$digit <- factor(data$digit)
+#partition data 
+n=dim(data)[1]
+set.seed(12345) 
+id=sample(1:n, floor(n*0.5)) 
+train=data[id,] 
+id1=setdiff(1:n, id)
+set.seed(12345) 
+id2=sample(id1, floor(n*0.25)) 
+valid=data[id2,]
+id3=setdiff(id1,id2)
+test=data[id3,]
+```
+
+2. Use training data to fit 30-nearest neighbor classifier with function kknn() and
+kernel=”rectangular” from package kknn and estimate
+• Confusion matrices for the training and test data (use table())
+• Misclassification errors for the training and test data
+Comment on the quality of predictions for different digits and on the overall
+prediction quality:
+
+The misclassification level for both the train and test data seem to be at a fairly good level, at 0.0424 and 0.0492 respectively
+
+The digits that seems the easiest to classify correctly for the knn model are 0, 2, 3, 6 and 7
+
+The digits that seem to be the harder to predict are 1, 4, 5, 8, 9
+
+
+3. Find any 2 cases of digit “8” in the training data which were easiest to classify
+and 3 cases that were hardest to classify (i.e. having highest and lowest
+probabilities of the correct class). Comment on whether
+these cases seem to be hard or easy to recognize visually.
+
+The first two digits seemed pretty definitely easier to recognize as an eight (altought the first one of them was maybe a little difficult to recognize as well). The other did appear much less recognizable as symbolizing the digit eight. In fact, looking at the probabilities for the predictions for them, you get the result down in the table below, indicating that althought the probability for the datapoints being 8 were not zero, the model found it much more likely for the datapoints to resemble other digits: 
+
+     0         1 2 3 4 5   6 7         8 9
+[1,] 0 0.0000000 0 0 0 0 0.9 0 0.1000000 0
+[2,] 0 0.8333333 0 0 0 0 0.0 0 0.1666667 0
+[3,] 0 0.7666667 0 0 0 0 0.0 0 0.2333333 0
+
+For the two easiest indexes, the model reported recognition probabilities for the datapoints resembling 8 at 100%:
+
+     0 1 2 3 4 5 6 7 8 9
+[1,] 0 0 0 0 0 0 0 0 1 0
+[2,] 0 0 0 0 0 0 0 0 1 0
+
+4. How does the model complexity
+change when K increases and how does it affect the training and validation? estimate the test error for the model having the optimal K, compare it with the training and validation
+errors and make necessary conclusions about the model quality:
+
+As observed from the graph below, the misclassification seems to be generally lower for predictions on the training data than the validation data, which is to be expected since the model is trained to minimize the error on the training data. The error seems to only increase with K for the training data. This is simply because the model becomes more sensitive to local anomalies and is more likely to overfit to the training data for few K's. The validation error decreases a little bit from 1 to 7 K, but later grows as K also grows. The model was most likely a little overfit for the lower values of K, but reached a local optimum at around 7. As K then became bigger, it most likely started to underfit as it averages to many neighbors, including those far away from the test point.
+
+
+
