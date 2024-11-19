@@ -13,17 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 Creating the Scatter Plot:
 The black dots are considered Diabetes level 0 while red dots are considered Diabetes level 1.
 
-```{Q1}
-mydata <- read.csv("C:/Users/Ana/Documents/LiU University/Machine Learning/csv data for labs/Lab 1 data/pima-indians-diabetes.csv")
-
-plot(x = mydata$X50, 
-     y = mydata$X148,
-     xlab = "Age",
-     ylab = "Plasma glucose concentration",
-     main = "Age vs Plasma glucose concentration",
-     col = as.factor(mydata$X1))
-```
-
 1. Do you think that Diabetes is easy to classify by a standard logistic regression model that uses these two variables as features? 
 
 We do not believe that Diabetes is easy to classify by a standard logistic regression model that uses only two variables (Age and Glucose Concentration) as features. If we look at the plot ![Plot of Age VS Plasma Glucose Concentration]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\plot age vs plasma glucose concentration.png") we can notice that having high Glucose concentration level could be connected with having Diabetes (the red dots), while we cannot see such significant impact with Age as a factor. Meaning that perhaps a different factor compared to Age should be considered. Also, there seems to be quite a lot of overlap between the red and black points, hence, logistic regression might not be the best way of classifying as the decision boundary would not be linear.
@@ -38,6 +27,33 @@ The model seems to give good predictions for higher glucose levels.There is visi
 Probabilistic equation: $$P(y = 1 | x1, x2) = 1 / (1 + exp(-(intercept + coef_{x1} * x_1 + coef_{x2} * x_2)))$$
 
 3. To derive the decision boundary we use the formula for probabilistic eq. and then we equate it to 0.5 and that is the treshold for which we devide the probabilities. So when we solve that equation for $x_2$ we get: $$x_2 = - \frac{intercept}{coef_{x2}} - \frac{coef_{x1}}{coef_{x2}} * x_1$$
+
+![1. Plot of Age VS Plasma Glucose Concentration with decision boundary]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ first type of plot with decision boundary.png") 
+Comment whether the decision boundary seems to catch the data distribution well?
+Next we look at the plot with the decision boundary.The decision boundary cannot perfectly separate the two classes where they overlap, especially for lower Plasma glucose values and varying ages. This is because of the linear nature of logistic regression, while actual relationship between diabetes, Plasma glucose, and Age is not perfectly linear so logistic regression cannot capture it. The decision boundary is barely differentiating between the classes for high Glucose levels.
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{Q1}
+mydata <- read.csv("C:/Users/Ana/Documents/LiU University/Machine Learning/csv data for labs/Lab 1 data/pima-indians-diabetes.csv")
+
+plot(x = mydata$X50, 
+     y = mydata$X148,
+     xlab = "Age",
+     ylab = "Plasma glucose concentration",
+     main = "Age vs Plasma glucose concentration",
+     col = as.factor(mydata$X1))
+```
 ## Including Plots
 
 You 

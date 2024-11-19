@@ -65,14 +65,56 @@ plot(x = X_test[,2],
      main = "Predicted Diabetes",
      col = as.factor(test_preds))
 
-
-
 #######################Q3#######################
+decision_boundary <- function(x_1) {
+  -(intercept/coef_x2) - (coef_x1/coef_x2) * x_1}
+curve(decision_boundary(x), add = TRUE, col = "blue", lwd = 2)
+
+#######################Q4#######################
+
+#  r = 0.2
+
+# Predict probabilities and classify for training set
+train_probs = predict(logit_model, newdata = data.frame(Glucose = X_train[, 1], Age = X_train[, 2]), type = "response")
+train_preds = ifelse(train_probs >= 0.2, 1, 0)
+train_error = mean(train_preds != y_train)
+cat("Training Misclassification Error:", train_error, "\n")
+
+
+# Predict probabilities and classify for test set
+test_probs = predict(logit_model, newdata = X_test, type = "response")
+test_preds = ifelse(test_probs >= 0.2, 1, 0)
+
+#Creating new, predict scatterplot
+plot(x = X_test[,2], 
+     y = X_test[,1],
+     xlab = "Age",
+     ylab = "Plasma glucose concentration",
+     main = "Predicted Diabetes",
+     col = as.factor(test_preds))
 
 
 
+#  r = 0.8
+
+# Predict probabilities and classify for training set
+train_probs = predict(logit_model, newdata = data.frame(Glucose = X_train[, 1], Age = X_train[, 2]), type = "response")
+train_preds = ifelse(train_probs >= 0.8, 1, 0)
+train_error = mean(train_preds != y_train)
+cat("Training Misclassification Error:", train_error, "\n")
 
 
+# Predict probabilities and classify for test set
+test_probs = predict(logit_model, newdata = X_test, type = "response")
+test_preds = ifelse(test_probs >= 0.8, 1, 0)
+
+#Creating new, predict scatterplot
+plot(x = X_test[,2], 
+     y = X_test[,1],
+     xlab = "Age",
+     ylab = "Plasma glucose concentration",
+     main = "Predicted Diabetes",
+     col = as.factor(test_preds))
 
 
 
