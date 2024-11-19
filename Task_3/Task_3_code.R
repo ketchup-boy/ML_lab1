@@ -119,6 +119,7 @@ plot(x = X_test[,2],
 
 #######################Q5#######################
 
+# Defining functions for new features
 z_1 <- function(x_1){
   x_1^4
 }
@@ -139,6 +140,47 @@ z_5 <- function(x_2){
   x_2^4
 }
 
-logit_model_base_exp = glm(y_train ~ Glucose + Age,data = train_data, family = binomial)
-train_data = data.frame(Glucose = X_train[, 1], Age = X_train[, 2], Diabetes = y_train)
+# Computing new features for the train dataset
+train_data_base_exp <- data.frame(
+  Glucose = X_train[, 1],
+  Age = X_train[, 2],
+  z1 = z_1(X_train[, 1]),
+  z2 = z_2(X_train[, 1], X_train[, 2]),
+  z3 = z_3(X_train[, 1], X_train[, 2]),
+  z4 = z_4(X_train[, 1], X_train[, 2]),
+  z5 = z_5(X_train[, 2]),
+  Diabetes = y_train
+)
 
+# Model with more features
+logit_model_base_exp = glm(Diabetes ~ Glucose + Age + z1 + z2 + z3 + z4 + z5, data = train_data_base_exp, family = binomial)
+summary(logit_model_base_exp)
+
+# Predicting probabilities and classifying for the training set
+train_probs_base_exp <- predict(logit_model_base_exp, newdata = train_data_base_exp, type = "response")
+train_preds_base_exp <- ifelse(train_probs_base_exp >= 0.5, 1, 0)
+train_error_base_exp = mean(train_preds_base_exp != y_train)
+cat("Training Misclassification Error, Base Expansion:", train_error_base_exp, "\n")
+
+# Computing new features for the test dataset
+test_data_base_exp <- data.frame(
+  Glucose = X_test[, 1],
+  Age = X_test[, 2],
+  z1 = z_1(X_test[, 1]),
+  z2 = z_2(X_test[, 1], X_test[, 2]),
+  z3 = z_3(X_test[, 1], X_test[, 2]),
+  z4 = z_4(X_test[, 1], X_test[, 2]),
+  z5 = z_5(X_test[, 2])
+)
+
+# Predicting probabilities and classifying for the test set
+test_probs_base_exp <- predict(logit_model_base_exp, newdata = test_data_base_exp, type = "response")
+test_preds_base_exp <- ifelse(test_probs_base_exp >= 0.5, 1, 0)
+
+#Creating new, predict scatterplot
+plot(x = X_test[,2], 
+     y = X_test[,1],
+     xlab = "Age",
+     ylab = "Plasma glucose concentration",
+     main = "Predicted Diabetes (Basis Expansion)",
+     col = as.factor(test_preds_base_exp))

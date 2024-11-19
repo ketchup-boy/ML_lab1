@@ -22,15 +22,19 @@ We do not believe that Diabetes is easy to classify by a standard logistic regre
 
 ![Plot of Age VS Plasma Glucose Concentration with predictions]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\predicted diabetes = age vs glucose concentr.png")
 
+Training Misclassification Error: 0.261194 
+
 The model seems to give good predictions for higher glucose levels.There is visible overlap where class overlap in 110-150 region of Glucose Concentration which can lead to missclassification.This is expected, as logistic regression applies a linear decision boundary, which cannot capture more complex relationship in this region. We also see that classification boundary does not differentiate based on age, because the predictions for younger and older individuals in similar glucose ranges look similar, so Age as a factor has limited influence.
 
 Probabilistic equation: $$P(y = 1 | x1, x2) = 1 / (1 + exp(-(intercept + coef_{x1} * x_1 + coef_{x2} * x_2)))$$
+
 
 3. To derive the decision boundary we use the formula for probabilistic eq. and then we equate it to 0.5 and that is the treshold for which we devide the probabilities. So when we solve that equation for $x_2$ we get: $$x_2 = - \frac{intercept}{coef_{x2}} - \frac{coef_{x1}}{coef_{x2}} * x_1$$
 
 ![1. Plot of Age VS Plasma Glucose Concentration with decision boundary]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ predicted values plot with good decision boundary.png") 
 Comment whether the decision boundary seems to catch the data distribution well?
 The decision boundary cannot perfectly separate the two classes where they overlap,but it does separate most of the data appropriately. The slight miscllassification is because of the linear nature of logistic regression, while actual relationship between diabetes, Plasma glucose, and Age is probably not perfectly linear so logistic regression cannot capture it.
+
 
 4. By using these plots, comment on what happens with the prediction when r value changes?
 
@@ -39,7 +43,15 @@ The decision boundary cannot perfectly separate the two classes where they overl
 ![1. Plot of Age VS Plasma Glucose Concentration using r = 0.8]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ age vs glucose with r=0.8.png")
 
 When the r value changes we classify more or less points as diabetic or non-diabetic. We notice that the decision boundary that was calculated will fit more with the higher r value (r=0.8). Higher r value will also predict more false negatives and fewer false positives.
+Training Misclassification Error(r=0.2): 0.369403 
+Training Misclassification Error(r=0.8): 0.3078358
 
+5. What can you say about the quality of this model compared to the previous logistic regression model? 
+How have the basis expansion trick affected the shape of the decision boundary and the prediction accuracy?
+Training Misclassification Error, Base Expansion: 0.2406716 
+Training Misclassification Error, Original: 0.261194
+The decision boundary for the basis expanded model seems non-linear, as the additional features allow the model to capture more complex relationships between 
+$x_1$(Plasma glucose) and $x_2$(Age). We can see that the misclassification error for basis expansion is lower compared to the misclassification of the original model, since the non-linear boundary better captures the structure of the data. We should also mention that there is now a slight risk of overfitting if the dataset is noisy
 
 
 
