@@ -28,13 +28,17 @@ Probabilistic equation: $$P(y = 1 | x1, x2) = 1 / (1 + exp(-(intercept + coef_{x
 
 3. To derive the decision boundary we use the formula for probabilistic eq. and then we equate it to 0.5 and that is the treshold for which we devide the probabilities. So when we solve that equation for $x_2$ we get: $$x_2 = - \frac{intercept}{coef_{x2}} - \frac{coef_{x1}}{coef_{x2}} * x_1$$
 
-![1. Plot of Age VS Plasma Glucose Concentration with decision boundary]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ first type of plot with decision boundary.png") 
+![1. Plot of Age VS Plasma Glucose Concentration with decision boundary]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ predicted values plot with good decision boundary.png") 
 Comment whether the decision boundary seems to catch the data distribution well?
-Next we look at the plot with the decision boundary.The decision boundary cannot perfectly separate the two classes where they overlap, especially for lower Plasma glucose values and varying ages. This is because of the linear nature of logistic regression, while actual relationship between diabetes, Plasma glucose, and Age is not perfectly linear so logistic regression cannot capture it. The decision boundary is barely differentiating between the classes for high Glucose levels.
+The decision boundary cannot perfectly separate the two classes where they overlap,but it does separate most of the data appropriately. The slight miscllassification is because of the linear nature of logistic regression, while actual relationship between diabetes, Plasma glucose, and Age is probably not perfectly linear so logistic regression cannot capture it.
 
+4. By using these plots, comment on what happens with the prediction when r value changes?
 
+![1. Plot of Age VS Plasma Glucose Concentration using r = 0.2]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ age vs glucose with r=0.2.png")
 
+![1. Plot of Age VS Plasma Glucose Concentration using r = 0.8]("C:\Users\Ana\Documents\LiU University\Machine Learning\Lab solutions\ML_lab1\plots for labs\ age vs glucose with r=0.8.png")
 
+When the r value changes we classify more or less points as diabetic or non-diabetic. We notice that the decision boundary that was calculated will fit more with the higher r value (r=0.8). Higher r value will also predict more false negatives and fewer false positives.
 
 
 

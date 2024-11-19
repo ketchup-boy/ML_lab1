@@ -36,7 +36,7 @@ train_data = data.frame(Glucose = X_train[, 1], Age = X_train[, 2], Diabetes = y
 logit_model = glm(y_train ~ Glucose + Age,data = train_data, family = binomial)
 #x_1 is Plasma glucose
 #x_2 is Age
-
+summary(logit_model)
 
 # Extract coefficients
 intercept = coef(logit_model)[1]
@@ -67,7 +67,8 @@ plot(x = X_test[,2],
 
 #######################Q3#######################
 decision_boundary <- function(x_1) {
-  -(intercept/coef_x2) - (coef_x1/coef_x2) * x_1}
+  -(intercept/coef_x1) - (coef_x2/coef_x1) * x_1}
+
 curve(decision_boundary(x), add = TRUE, col = "blue", lwd = 2)
 
 #######################Q4#######################
@@ -115,7 +116,4 @@ plot(x = X_test[,2],
      ylab = "Plasma glucose concentration",
      main = "Predicted Diabetes",
      col = as.factor(test_preds))
-
-
-
 
