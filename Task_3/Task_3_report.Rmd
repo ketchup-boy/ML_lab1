@@ -45,9 +45,6 @@ When the r value changes we classify more or less points as diabetic or non-diab
 
 
 
-
-
-
 ```{Q1}
 mydata <- read.csv("C:/Users/Ana/Documents/LiU University/Machine Learning/csv data for labs/Lab 1 data/pima-indians-diabetes.csv")
 

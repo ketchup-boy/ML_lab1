@@ -117,3 +117,28 @@ plot(x = X_test[,2],
      main = "Predicted Diabetes",
      col = as.factor(test_preds))
 
+#######################Q5#######################
+
+z_1 <- function(x_1){
+  x_1^4
+}
+
+z_2 <- function(x_1,x_2){
+  (x_1^3)*(x_2)
+}
+
+z_3 <- function(x_1,x_2){
+  (x_1^2)*(x_2^2)
+}
+
+z_4 <- function(x_1,x_2){
+  (x_1)*(x_2^3)
+}
+
+z_5 <- function(x_2){
+  x_2^4
+}
+
+logit_model_base_exp = glm(y_train ~ Glucose + Age,data = train_data, family = binomial)
+train_data = data.frame(Glucose = X_train[, 1], Age = X_train[, 2], Diabetes = y_train)
+
