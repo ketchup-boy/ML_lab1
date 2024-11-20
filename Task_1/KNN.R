@@ -95,12 +95,9 @@ for (i in hardest_indexes) {
 
 ######################################################
 
-
-# Create storage for errors
 train_errors <- numeric(30)  # Training error for each K
 valid_errors <- numeric(30)  # Validation error for each K
 
-# Loop over K = 1 to 30
 for (k in 1:30) {
   # Fit k-NN model
   knn_model <- kknn(digit ~ ., train = train, test = valid, k = k, kernel = "rectangular")
@@ -114,11 +111,6 @@ for (k in 1:30) {
   valid_errors[k] <- mean(valid_pred != valid$digit)
 }
 
-# Plot the errors
-# plot(1:30, train_errors, type = "o", col = "blue", ylim = c(0, max(train_errors, valid_errors)), 
-#      xlab = "K", ylab = "Misclassification Error", main = "Training and Validation Errors vs K")
-# lines(1:30, valid_errors, type = "o", col = "red")
-# legend("topright", legend = c("Training Error", "Validation Error"), col = c("blue", "red"), lty = 1, pch = 1)
 par(xpd = TRUE, mar = c(5, 4, 4, 7))  # Increase the right margin
 plot(1:30, train_errors, type = "o", col = "blue", ylim = c(0, max(train_errors, valid_errors)), 
      xlab = "K", ylab = "Misclassification Error", main = "Training and Validation Errors vs K")
@@ -146,32 +138,24 @@ epsilon <- 1e-15
 for (k in 1:max_k) {
   # Fit k-NN model
   knn_model <- kknn(digit ~ ., train = train, test = valid, k = k, kernel = "rectangular")
-  # Extract predicted probabilities
-  #probs <- attributes(fitted(knn_model))$prob
+
   probs <- knn_model$prob
   
-  # Ensure probabilities are retrieved properly
-  if (is.null(probs)) {
-    stop("Predicted probabilities not found. Check the model configuration.")
-  }
   
   # Compute cross-entropy loss for validation data
   cross_entropy_loss <- 0
   for (i in 1:nrow(valid)) {
-    #true_class <- as.numeric(valid$digit[i]) + 1  # Convert digit to 1-based index
     true_class <- as.numeric(valid$digit[i])
     predicted_prob <- probs[i, true_class]  # Get the probability for the true class
     cross_entropy_loss <- cross_entropy_loss - log(predicted_prob + epsilon)
   }
   cross_entropy_losses[k] <- cross_entropy_loss / nrow(valid)  # Normalize by number of samples
 }
-#dev.new(width = 8, height = 6)
-# Plot cross-entropy losses
 plot(1:max_k, cross_entropy_losses, type = "o", col = "red", 
      xlab = "K", ylab = "Cross-Entropy Loss", ylim = c(0, max(cross_entropy_losses)),
      main = "Cross-Entropy Loss vs K")
 
-# Find the optimal K
+
 optimal_k <- which.min(cross_entropy_losses)
 cat("Optimal K (based on cross-entropy loss):", optimal_k, "\n")
 
