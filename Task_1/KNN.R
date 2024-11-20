@@ -46,6 +46,15 @@ print(paste("Training Misclassification Error:", round(train_misclassification, 
 test_misclassification <- sum(test$digit != test_pred) / nrow(test)
 print(paste("Test Misclassification Error:", round(test_misclassification, 4)))
 
+# Misclassification for each digit:
+train_correctly_classified <- diag(as.matrix(train_conf_matrix))
+test_correctly_classified <- diag(as.matrix(test_conf_matrix))
+
+error_rate_digit_train <- 1 - (train_correctly_classified/rowSums(as.matrix(train_conf_matrix)))
+error_rate_digit_test <- 1 - (test_correctly_classified/rowSums(as.matrix(test_conf_matrix)))
+
+print(error_rate_digit_train)
+print(error_rate_digit_test)
 
 ####################################################
 
